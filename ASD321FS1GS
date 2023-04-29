@@ -36,9 +36,9 @@ nameOfGame = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
 
 
 local Config = setmetatable({},{ __newindex = function(tables,key,value) rawset(tables,key,value) end})
-local ConfigSetting = {FileName=game.Players.LocalPlayer.Name,AutoSave=true,FolderName='Verny Hub'}
+local ConfigSetting = {FileName=game.Players.LocalPlayer.Name .. "_" .. nameOfGame.Name ,AutoSave=true,FolderName='Verny Hub'}
 function verny:CreateFile() :any
-	local FileName = ConfigSetting.FileName .. "_" .. nameOfGame.Name or "Next"
+	local FileName = ConfigSetting.FileName or "Next"
 	local FolderName = ConfigSetting.FolderName or "NextJs"
 	if not isfolder(FolderName) then
 		makefolder(FolderName) -- [[u can change folder name ]]
@@ -54,7 +54,7 @@ function verny:CreateFile() :any
 	end
 end
 function verny:LoadFile()
-	local FileName = ConfigSetting.FileName .. "_" .. nameOfGame.Name or "Next"
+	local FileName = ConfigSetting.FileName or "Next"
 	local FolderName = ConfigSetting.FolderName or "NextJs"
 	if not isfolder(FolderName) then
 		verny:CreateFile()
@@ -74,7 +74,7 @@ function verny:LoadFile()
 end
 function verny:Savefile()
 	local FolderName = ConfigSetting.FolderName or "NextJs"
-	local FileName = ConfigSetting.FileName .. "_" .. nameOfGame.Name or "Next"
+	local FileName = ConfigSetting.FileName or "Next"
 	if not isfolder(FolderName) then
 		verny:CreateFile()
 	end
