@@ -426,7 +426,7 @@ function verny.create(Settings)
 			Position = UDim2.new(0.0470588282, 0, 0.0960000008, 0),
 			Size = UDim2.new(0, 144, 0, 23),
 			FontFace = Font.fromId(12187365977),
-			Text = "Blox Fruit",
+			Text = nameOfGame.Name,
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextSize = 14.000,
 			TextTransparency = 0.450,
@@ -615,6 +615,7 @@ function verny.create(Settings)
 			FillDirection = Enum.FillDirection.Vertical,
 			ScrollWheelInputEnabled = false,
 			TweenTime = 0.500,
+			Padding = UDim.new(0, 5)
 		})
 
 		function verny:Destroy()
@@ -834,7 +835,7 @@ function verny.create(Settings)
 
 				game:GetService("RunService").Stepped:Connect(function()
 					pcall(function()
-						scrollingmainpage.CanvasSize = UDim2.new(0,0,0,scrollingmainpage_uilistlayout.AbsoluteContentSize.Y + 5)
+						scrollingmainpage.CanvasSize = UDim2.new(0,0,0,scrollingmainpage_uilistlayout.AbsoluteContentSize.Y + 25)
 						scrollingbar.CanvasSize = UDim2.new(0,0,0,scrollingbar_uilistlayout.AbsoluteContentSize.Y + 5)
 						page.Size = UDim2.new(0,457,0,44 + page_uilistlayout.AbsoluteContentSize.Y - 40)
 					end)
