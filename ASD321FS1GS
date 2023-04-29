@@ -1274,7 +1274,7 @@ function verny.create(Settings)
 							end)
 						end
 
-						function dropfunc.ClearWithName(ItemRemove:table)
+						function dropfunc:ClearWithName(ItemRemove:table)
 							for k,c in next,ItemRemove do
 								if TextHead.Name == c then
 									for i,v in pairs(dropdownscrollingframe:GetChildren())do
@@ -1297,11 +1297,11 @@ function verny.create(Settings)
 
 						end
 
-						function dropfunc.Refresh(ItemRemove:table,additem:table)
-							dropfunc.ClearWithName(ItemRemove);
-							dropfunc.AddMod(additem);
+						function dropfunc:Refresh(ItemRemove:table,additem:table)
+							dropfunc:ClearWithName(ItemRemove);
+							dropfunc:AddMod(additem);
 						end
-						function dropfunc.Update(Item:table)
+						function dropfunc:Update(Item:table)
 							for i,v in next,Item do
 								dropfunc.Add(v)
 							end
@@ -1418,7 +1418,7 @@ function verny.create(Settings)
 
 						local dropfunc = {}
 
-						function dropfunc.Clear()
+						function dropfunc:Clear()
 							for i,v in pairs(dropdownscrollingframe:GetChildren())do
 								if v:IsA("TextButton") then
 									v:Destroy()
@@ -1429,7 +1429,7 @@ function verny.create(Settings)
 							textdrop.Text = ""
 						end
 
-						function dropfunc.Add(v)
+						function dropfunc:Add(v)
 
 							local buttonbar = Create("TextButton",{
 								Name = "buttonbar",
@@ -1523,7 +1523,7 @@ function verny.create(Settings)
 								pcall(callback,MultiDropdown)
 							end)
 
-							function dropfunc.ClearWithName(ItemRemove:table)
+							function dropfunc:ClearWithName(ItemRemove:table)
 								for k,c in next,ItemRemove do
 									if TextHead.Name == c then
 										for i,v in pairs(dropdownscrollingframe:GetChildren())do
@@ -1537,7 +1537,7 @@ function verny.create(Settings)
 								table.clear(MultiDropdown)
 								textdrop.Text = ""
 							end
-							function dropfunc.AddMod(Item:table)
+							function dropfunc:AddMod(Item:table)
 								xpcall(function()
 									for i,v in next,Item do
 										dropfunc.Add(v)
@@ -1548,13 +1548,13 @@ function verny.create(Settings)
 
 							end
 
-							function dropfunc.Refresh(ItemRemove:table,additem:table)
-								dropfunc.ClearWithName(ItemRemove);
-								dropfunc.AddMod(additem);
+							function dropfunc:Refresh(ItemRemove:table,additem:table)
+								dropfunc:ClearWithName(ItemRemove);
+								dropfunc:AddMod(additem);
 							end
-							function dropfunc.Update(Item:table)
+							function dropfunc:Update(Item:table)
 								for i,v in next,Item do
-									dropfunc.Add(v)
+									dropfunc:Add(v)
 								end
 							end
 						end
