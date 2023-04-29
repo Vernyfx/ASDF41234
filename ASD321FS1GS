@@ -342,7 +342,6 @@ end
 
 -- [Create Library]
 
-local verny = {}
 shared.call = nil
 function verny.call()
 	local verny_lib = Create("ScreenGui",{
