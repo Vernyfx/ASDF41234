@@ -1106,7 +1106,7 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									ConfigModule:Savefile()
+									verny:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
@@ -1132,7 +1132,7 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									ConfigModule:Savefile()
+									verny:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
@@ -1240,7 +1240,7 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									ConfigModule:Savefile()
+									verny:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
@@ -1266,7 +1266,7 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									ConfigModule:Savefile()
+									verny:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
@@ -1408,7 +1408,7 @@ function verny.create(Settings)
 								textdrop.Text = (table.concat(MultiDropdown,","))
 								Config[Title] = MultiDropdown
 								if ConfigSetting.AutoSave then
-									ConfigModule:Savefile()
+									verny:Savefile()
 								end
 								print(Config[Title])
 								pcall(callback,MultiDropdown)
@@ -1516,7 +1516,7 @@ function verny.create(Settings)
 								textdrop.Text = (table.concat(MultiDropdown,","))
 								Config[Title] = MultiDropdown
 								if ConfigSetting.AutoSave then
-									ConfigModule:Savefile()
+									verny:Savefile()
 								end
 								print(Config[Title])
 								pcall(callback,MultiDropdown)
@@ -1652,14 +1652,14 @@ function verny.create(Settings)
 						if not togglefocus then
 							Config[Title] = true
 							if ConfigSetting.AutoSave then
-								ConfigModule:Savefile()
+								verny:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0})
 						else
 							Config[Title] = false
 							if ConfigSetting.AutoSave then
-								ConfigModule:Savefile()
+								verny:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
@@ -1681,7 +1681,7 @@ function verny.create(Settings)
 						if value then
 							Config[Title] = value
 							if ConfigSetting.AutoSave then
-								ConfigModule:Savefile()
+								verny:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0})
@@ -1690,7 +1690,7 @@ function verny.create(Settings)
 						else
 							Config[Title] = value
 							if ConfigSetting.AutoSave then
-								ConfigModule:Savefile()
+								verny:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
