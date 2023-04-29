@@ -30,10 +30,14 @@ for i,v in pairs(game:GetService("CoreGui"):GetDescendants()) do
 	end
 end
 --[Save Module]
-local verny = {}
+local verny:table = {}
+
+nameOfGame = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+
+
 local Config = setmetatable({},{ __newindex = function(tables,key,value) rawset(tables,key,value) end})
-local ConfigSetting = {FileName=game.Players.LocalPlayer.Name,AutoSave=true,FolderName='Folder Name Where The Scripts Go'}
-function verny:CreateFile()
+local ConfigSetting = {FileName=game.Players.LocalPlayer.Name .. "_" .. nameOfGame.Name ,AutoSave=true,FolderName='Verny Hub'}
+function verny:CreateFile() :any
 	local FileName = ConfigSetting.FileName or "Next"
 	local FolderName = ConfigSetting.FolderName or "NextJs"
 	if not isfolder(FolderName) then
@@ -41,7 +45,7 @@ function verny:CreateFile()
 	end
 	if not isfile(FolderName..'/'..FileName..".json") then
 		xpcall(function()
-			writefile('Folder Name Where The Scripts Go/'..FileName..".json",tostring("{}"))
+			writefile('Verny Hub/'..FileName..".json",tostring("{}"))
 		end,function(x)
 			return {false,x}
 		end)
@@ -75,7 +79,7 @@ function verny:Savefile()
 		verny:CreateFile()
 	end
 	if not isfile(FolderName..'/'..FileName..".json") then
-		ConfigModule:CreateFile()
+		verny:CreateFile()
 		return {false,"Somethings error pls try again."..debug.traceback()}
 	else
 		xpcall(function()
@@ -432,7 +436,7 @@ function verny.create(Settings)
 			Position = UDim2.new(0.0470588282, 0, 0.0960000008, 0),
 			Size = UDim2.new(0, 144, 0, 23),
 			FontFace = Font.fromId(12187365977),
-			Text = "Blox Fruit",
+			Text = nameOfGame.Name,
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextSize = 14.000,
 			TextTransparency = 0.450,
