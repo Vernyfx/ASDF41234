@@ -153,6 +153,15 @@ local function tablefound(ta, object)
 	return false
 end
 
+local function tablefoundUpGrade(ta, object,Func)
+	for i,v in pairs(ta) do
+		if Func(v) == Func(object) then
+			return true
+		end
+	end
+	return false
+end
+
 -- [Effect]
 
 local ActualTypes = {
@@ -333,6 +342,7 @@ end
 
 -- [Create Library]
 
+local verny = {}
 shared.call = nil
 function verny.call()
 	local verny_lib = Create("ScreenGui",{
@@ -615,7 +625,6 @@ function verny.create(Settings)
 			FillDirection = Enum.FillDirection.Vertical,
 			ScrollWheelInputEnabled = false,
 			TweenTime = 0.500,
-			Padding = UDim.new(0, 5)
 		})
 
 		function verny:Destroy()
@@ -1151,6 +1160,20 @@ function verny.create(Settings)
 							textdrop.Text = ""
 						end
 
+						function dropfunc.ClearName(TableName)
+
+							for i,v in pairs(dropdownscrollingframe:GetChildren())do
+								if v:IsA("TextButton") then
+									if v:FindFirstChild("TextHead") then 
+										if tablefoundUpGrade(TableName,v:FindFirstChild("TextHead").Text,tostring) then 
+											v:Destroy()
+										end
+									end
+								end
+							end
+							textdrop.Text = ""
+						end
+
 						function dropfunc.Add(v)
 							local buttonbar = Create("TextButton",{
 								Name = "buttonbar",
@@ -1274,37 +1297,14 @@ function verny.create(Settings)
 							end)
 						end
 
-						function dropfunc:ClearWithName(ItemRemove:table)
-							for k,c in next,ItemRemove do
-								if TextHead.Name == c then
-									for i,v in pairs(dropdownscrollingframe:GetChildren())do
-										if v:IsA("TextButton") and TextHead.Name == c  then
-											v:Destroy()
-										end
-									end
-								end
-							end
-							textdrop.Text = ""
-						end
-						function dropfunc.AddMod(Item:table)
-							xpcall(function()
-								for i,v in next,Item do
-									dropfunc.Add(v)
-								end
-							end,function(x)
-								warn(x)
-							end)
-
-						end
-
-						function dropfunc:Refresh(ItemRemove:table,additem:table)
-							dropfunc:ClearWithName(ItemRemove);
-							dropfunc:AddMod(additem);
-						end
-						function dropfunc:Update(Item:table)
-							for i,v in next,Item do
+						function dropfunc:Refresh(ClearSelect,Item)
+							dropfunc.ClearName(ClearSelect)
+							for i,v in pairs(Item) do 
 								dropfunc.Add(v)
 							end
+						end
+						function dropfunc:Update(Item)
+							dropfunc.Add(Item)
 						end
 						return dropfunc
 					else -- Multi Dropdown
@@ -1417,8 +1417,29 @@ function verny.create(Settings)
 						end
 
 						local dropfunc = {}
+						
+						function dropfunc.ClearName(TableName)
 
-						function dropfunc:Clear()
+							for i,v in pairs(dropdownscrollingframe:GetChildren())do
+								if v:IsA("TextButton") then
+									if v:FindFirstChild("TextHead") then 
+										if tablefoundUpGrade(TableName,v:FindFirstChild("TextHead").Text,tostring) then 
+											v:Destroy()
+										end
+									end
+								end
+							end
+							textdrop.Text = ""
+						end
+						
+						function dropfunc:Refresh(ClearSelect,Item)
+							dropfunc.ClearName(ClearSelect)
+							for i,v in pairs(Item) do 
+								dropfunc.Add(v)
+							end
+						end
+						
+						function dropfunc.Clear()
 							for i,v in pairs(dropdownscrollingframe:GetChildren())do
 								if v:IsA("TextButton") then
 									v:Destroy()
@@ -1429,7 +1450,7 @@ function verny.create(Settings)
 							textdrop.Text = ""
 						end
 
-						function dropfunc:Add(v)
+						function dropfunc.Add(v)
 
 							local buttonbar = Create("TextButton",{
 								Name = "buttonbar",
@@ -1522,41 +1543,6 @@ function verny.create(Settings)
 								print(Config[Title])
 								pcall(callback,MultiDropdown)
 							end)
-
-							function dropfunc:ClearWithName(ItemRemove:table)
-								for k,c in next,ItemRemove do
-									if TextHead.Name == c then
-										for i,v in pairs(dropdownscrollingframe:GetChildren())do
-											if v:IsA("TextButton") and TextHead.Name == c  then
-												v:Destroy()
-											end
-										end
-									end
-								end
-								table.clear(Item)
-								table.clear(MultiDropdown)
-								textdrop.Text = ""
-							end
-							function dropfunc:AddMod(Item:table)
-								xpcall(function()
-									for i,v in next,Item do
-										dropfunc.Add(v)
-									end
-								end,function(x)
-									warn(x)
-								end)
-
-							end
-
-							function dropfunc:Refresh(ItemRemove:table,additem:table)
-								dropfunc:ClearWithName(ItemRemove);
-								dropfunc:AddMod(additem);
-							end
-							function dropfunc:Update(Item:table)
-								for i,v in next,Item do
-									dropfunc:Add(v)
-								end
-							end
 						end
 					end
 				end
