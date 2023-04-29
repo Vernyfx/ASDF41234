@@ -29,14 +29,10 @@ for i,v in pairs(game:GetService("CoreGui"):GetDescendants()) do
 		end
 	end
 end
-
-nameOfGame = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
-
 --[Save Module]
 local verny:table = {}
-
 local Config = setmetatable({},{ __newindex = function(tables,key,value) rawset(tables,key,value) end})
-local ConfigSetting = {FileName=game.Players.LocalPlayer.Name,AutoSave=true,FolderName='Verny Hub'}
+local ConfigSetting = {FileName=game.Players.LocalPlayer.Name,AutoSave=true,FolderName='Folder Name Where The Scripts Go'}
 function verny:CreateFile() :any
 	local FileName = ConfigSetting.FileName or "Next"
 	local FolderName = ConfigSetting.FolderName or "NextJs"
@@ -45,7 +41,7 @@ function verny:CreateFile() :any
 	end
 	if not isfile(FolderName..'/'..FileName..".json") then
 		xpcall(function()
-			writefile('Verny Hub/'..FileName..".json",tostring("{}"))
+			writefile('Folder Name Where The Scripts Go/'..FileName..".json",tostring("{}"))
 		end,function(x)
 			return {false,x}
 		end)
@@ -426,7 +422,7 @@ function verny.create(Settings)
 			Position = UDim2.new(0.0470588282, 0, 0.0960000008, 0),
 			Size = UDim2.new(0, 144, 0, 23),
 			FontFace = Font.fromId(12187365977),
-			Text = nameOfGame.Name,
+			Text = "Blox Fruit",
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextSize = 14.000,
 			TextTransparency = 0.450,
@@ -1106,7 +1102,7 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									verny:Savefile()
+									ConfigModule:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
@@ -1132,7 +1128,7 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									verny:Savefile()
+									ConfigModule:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
@@ -1240,7 +1236,7 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									verny:Savefile()
+									ConfigModule:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
@@ -1266,18 +1262,44 @@ function verny.create(Settings)
 								end
 								Config[Title] = v
 								if ConfigSetting.AutoSave then
-									verny:Savefile()
+									ConfigModule:Savefile()
 								end
 								textdrop.Text = v
 								callback(v)
 							end)
 						end
-						function dropfunc.Refresh(Item)
-							dropfunc.Clear()
-							dropfunc.Add(Item)
+
+						function dropfunc.ClearWithName(ItemRemove:table)
+							for k,c in next,ItemRemove do
+								if TextHead.Name == c then
+									for i,v in pairs(dropdownscrollingframe:GetChildren())do
+										if v:IsA("TextButton") and TextHead.Name == c  then
+											v:Destroy()
+										end
+									end
+								end
+							end
+							textdrop.Text = ""
 						end
-						function dropfunc.Update(Item)
-							dropfunc.Add(Item)
+						function dropfunc.AddMod(Item:table)
+							xpcall(function()
+								for i,v in next,Item do
+									dropfunc.Add(v)
+								end
+							end,function(x)
+								warn(x)
+							end)
+
+						end
+
+						function dropfunc.Refresh(ItemRemove:table,additem:table)
+							dropfunc.ClearWithName(ItemRemove);
+							dropfunc.AddMod(additem);
+						end
+						function dropfunc.Update(Item:table)
+							for i,v in next,Item do
+								dropfunc.Add(v)
+							end
 						end
 						return dropfunc
 					else -- Multi Dropdown
@@ -1382,7 +1404,7 @@ function verny.create(Settings)
 								textdrop.Text = (table.concat(MultiDropdown,","))
 								Config[Title] = MultiDropdown
 								if ConfigSetting.AutoSave then
-									verny:Savefile()
+									ConfigModule:Savefile()
 								end
 								print(Config[Title])
 								pcall(callback,MultiDropdown)
@@ -1490,11 +1512,46 @@ function verny.create(Settings)
 								textdrop.Text = (table.concat(MultiDropdown,","))
 								Config[Title] = MultiDropdown
 								if ConfigSetting.AutoSave then
-									verny:Savefile()
+									ConfigModule:Savefile()
 								end
 								print(Config[Title])
 								pcall(callback,MultiDropdown)
 							end)
+
+							function dropfunc.ClearWithName(ItemRemove:table)
+								for k,c in next,ItemRemove do
+									if TextHead.Name == c then
+										for i,v in pairs(dropdownscrollingframe:GetChildren())do
+											if v:IsA("TextButton") and TextHead.Name == c  then
+												v:Destroy()
+											end
+										end
+									end
+								end
+								table.clear(Item)
+								table.clear(MultiDropdown)
+								textdrop.Text = ""
+							end
+							function dropfunc.AddMod(Item:table)
+								xpcall(function()
+									for i,v in next,Item do
+										dropfunc.Add(v)
+									end
+								end,function(x)
+									warn(x)
+								end)
+
+							end
+
+							function dropfunc.Refresh(ItemRemove:table,additem:table)
+								dropfunc.ClearWithName(ItemRemove);
+								dropfunc.AddMod(additem);
+							end
+							function dropfunc.Update(Item:table)
+								for i,v in next,Item do
+									dropfunc.Add(v)
+								end
+							end
 						end
 					end
 				end
@@ -1591,14 +1648,14 @@ function verny.create(Settings)
 						if not togglefocus then
 							Config[Title] = true
 							if ConfigSetting.AutoSave then
-								verny:Savefile()
+								ConfigModule:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0})
 						else
 							Config[Title] = false
 							if ConfigSetting.AutoSave then
-								verny:Savefile()
+								ConfigModule:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
@@ -1620,7 +1677,7 @@ function verny.create(Settings)
 						if value then
 							Config[Title] = value
 							if ConfigSetting.AutoSave then
-								verny:Savefile()
+								ConfigModule:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0})
@@ -1629,7 +1686,7 @@ function verny.create(Settings)
 						else
 							Config[Title] = value
 							if ConfigSetting.AutoSave then
-								verny:Savefile()
+								ConfigModule:Savefile()
 							end
 							tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
 							tween(titletoggle,0.25,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
