@@ -32,6 +32,9 @@ end
 --[Save Module]
 local verny:table = {}
 
+nameOfGame = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+
+
 local Config = setmetatable({},{ __newindex = function(tables,key,value) rawset(tables,key,value) end})
 local ConfigSetting = {FileName=game.Players.LocalPlayer.Name,AutoSave=true,FolderName='Verny Hub'}
 function verny:CreateFile() :any
