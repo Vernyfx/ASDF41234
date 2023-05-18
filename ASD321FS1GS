@@ -36,7 +36,7 @@ nameOfGame = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
 
 
 local Config = setmetatable({},{ __newindex = function(tables,key,value) rawset(tables,key,value) end})
-local ConfigSetting = {FileName=game.Players.LocalPlayer.Name .. "_" .. nameOfGame.Name ,AutoSave=true,FolderName='Verny Hub'}
+local ConfigSetting = {FileName=game.Players.LocalPlayer.Name .. "_" .. game.PlaceId ,AutoSave=true,FolderName='Verny Hub'}
 function verny:CreateFile() :any
 	local FileName = ConfigSetting.FileName or "Next"
 	local FolderName = ConfigSetting.FolderName or "NextJs"
@@ -435,7 +435,7 @@ function verny.create(Settings)
 			Position = UDim2.new(0.0470588282, 0, 0.0960000008, 0),
 			Size = UDim2.new(0, 144, 0, 23),
 			FontFace = Font.fromId(12187365977),
-			Text = nameOfGame.Name,
+			Text = "Verny Hub",
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextSize = 14.000,
 			TextTransparency = 0.450,
@@ -458,6 +458,320 @@ function verny.create(Settings)
 			TextWrapped = true,
 			TextXAlignment = Enum.TextXAlignment.Left,
 		})
+		
+		-- [Notification]
+
+		local notificationlist = Create("Frame",{
+			Name = "notificationlist",
+			Parent = shared.call,
+			Active = true,
+			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+			BackgroundTransparency = 1.000,
+			Position = UDim2.new(0, 0, 0.00243902439, 0),
+			Size = UDim2.new(0.0113065327, 0, 0.997560978, 0),
+		})
+
+		local notificationlist_uilistlayout = Create("UIListLayout",{
+			Name = "notificationlist_uilistlayout",
+			Parent = notificationlist,
+			SortOrder = Enum.SortOrder.LayoutOrder,
+			VerticalAlignment = Enum.VerticalAlignment.Bottom,
+			Padding = UDim.new(0, 5),
+		})
+
+		local notificationlist_uipadding = Create("UIPadding",{
+			Name = "notificationlist_uipadding",
+			Parent = notificationlist,
+			PaddingBottom = UDim.new(0, 5),
+			PaddingLeft = UDim.new(0, 5),
+		})
+
+		function verny.Notification(options)
+			local Title = options.Title or tostring("Notification")
+			local Desc = options.Desc or tostring("Description")
+			local Cooldown = options.Cooldown or tonumber(5)
+			local Mode = options.Mode or false
+
+			if not Mode then
+				local mainnotification = Instance.new("Frame")
+				local mainnotification_uicorner = Instance.new("UICorner")
+				local logo_noti = Instance.new("ImageLabel")
+				local title_noti = Instance.new("TextLabel")
+				local title_noti_uigradient = Instance.new("UIGradient")
+				local desc_noti = Instance.new("TextLabel")
+				local closebutton = Instance.new("ImageButton")
+
+				mainnotification.Name = "mainnotification"
+				mainnotification.Parent = notificationlist
+				mainnotification.Active = true
+				mainnotification.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+				mainnotification.Position = UDim2.new(0.277777791, 0, 0.922982872, 0)
+				mainnotification.Size = UDim2.new(0, 0, 0, 58)
+				mainnotification.ClipsDescendants = true
+
+				tween(mainnotification,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 332, 0, 58)})
+
+				mainnotification_uicorner.CornerRadius = UDim.new(0, 6)
+				mainnotification_uicorner.Name = "mainnotification_uicorner"
+				mainnotification_uicorner.Parent = mainnotification
+
+				logo_noti.Name = "logo_noti"
+				logo_noti.Parent = mainnotification
+				logo_noti.Active = true
+				logo_noti.AnchorPoint = Vector2.new(0.5, 0.5)
+				logo_noti.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				logo_noti.BackgroundTransparency = 1.000
+				logo_noti.Position = UDim2.new(0.0662650615, 0, 0.362068951, 0)
+				logo_noti.Size = UDim2.new(0, 20, 0, 20)
+				logo_noti.Image = "http://www.roblox.com/asset/?id=6022668898"
+				logo_noti.ImageTransparency = 1
+
+				title_noti.Name = "title_noti"
+				title_noti.Parent = mainnotification
+				title_noti.Active = true
+				title_noti.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				title_noti.BackgroundTransparency = 1.000
+				title_noti.Position = UDim2.new(0.122359954, 0, 0.148207039, 0)
+				title_noti.Size = UDim2.new(0, 249, 0, 23)
+				title_noti.FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold)
+				title_noti.Text = tostring(Title)
+				title_noti.TextColor3 = Color3.fromRGB(255, 255, 255)
+				title_noti.TextSize = 14.000
+				title_noti.TextWrapped = true
+				title_noti.TextXAlignment = Enum.TextXAlignment.Left
+				title_noti.TextTransparency = 1
+
+				title_noti_uigradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(73, 143, 171)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(102, 200, 239))}
+				title_noti_uigradient.Name = "title_noti_uigradient"
+				title_noti_uigradient.Parent = title_noti
+
+				desc_noti.Name = "desc_noti"
+				desc_noti.Parent = mainnotification
+				desc_noti.Active = true
+				desc_noti.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				desc_noti.BackgroundTransparency = 1.000
+				desc_noti.Position = UDim2.new(0.0319986008, 0, 0.544275761, 0)
+				desc_noti.Size = UDim2.new(0, 305, 0, 23)
+				desc_noti.FontFace = Font.fromId(12187365977)
+				desc_noti.Text = tostring(Desc)
+				desc_noti.TextColor3 = Color3.fromRGB(255, 255, 255)
+				desc_noti.TextSize = 14.000
+				desc_noti.TextTransparency = 1
+				desc_noti.TextWrapped = true
+				desc_noti.TextXAlignment = Enum.TextXAlignment.Left
+
+				closebutton.Name = "closebutton"
+				closebutton.Parent = mainnotification
+				closebutton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				closebutton.BackgroundTransparency = 1.000
+				closebutton.Position = UDim2.new(0.912650585, 0, 0.172413796, 0)
+				closebutton.Size = UDim2.new(0, 20, 0, 20)
+				closebutton.Image = "http://www.roblox.com/asset/?id=6031094678"
+				closebutton.ImageTransparency = 1
+
+				closebutton.MouseButton1Down:Connect(function()
+					tween(logo_noti,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 1})
+					tween(title_noti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(desc_noti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(closebutton,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 1})
+					repeat wait() until closebutton.ImageTransparency == 1
+					tween(mainnotification,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 0, 0, 58)})
+					repeat wait() until mainnotification.Size == UDim2.new(0, 0, 0, 58)
+					wait(.2)
+					mainnotification:Destroy()
+				end)
+
+				repeat wait() until mainnotification.Size == UDim2.new(0, 332, 0, 58)
+				tween(logo_noti,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 0})
+				tween(title_noti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0})
+				tween(desc_noti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
+				tween(closebutton,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 0})
+
+				delay(tonumber(Cooldown),function()
+					tween(logo_noti,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 1})
+					tween(title_noti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(desc_noti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(closebutton,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 1})
+					repeat wait() until closebutton.ImageTransparency == 1
+					tween(mainnotification,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 0, 0, 58)})
+					repeat wait() until mainnotification.Size == UDim2.new(0, 0, 0, 58)
+					wait(.2)
+					mainnotification:Destroy()
+				end)
+			else
+				local notificationcenter = Instance.new("Frame")
+				local notificationcenter_uicorner = Instance.new("UICorner")
+				local notificationcenter_main = Instance.new("Frame")
+				local notificationcenter_uicorner_2 = Instance.new("UICorner")
+				local title_noticenter = Instance.new("TextLabel")
+				local desc_noticenter = Instance.new("TextLabel")
+				local closebutton_centernoti = Instance.new("TextButton")
+				local UICorner = Instance.new("UICorner")
+				local line_fill_noti = Instance.new("Frame")
+				local line_fill_noti_uicorner = Instance.new("UICorner")
+				local line_color = Instance.new("Frame")
+				local line_color_uicorner = Instance.new("UICorner")
+				local dropshadow = Instance.new("ImageLabel")
+
+				notificationcenter.Name = "notificationcenter"
+				notificationcenter.Parent = verny_main
+				notificationcenter.Active = true
+				notificationcenter.AnchorPoint = Vector2.new(0.5, 0.5)
+				notificationcenter.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+				notificationcenter.BackgroundTransparency = 0.100
+				notificationcenter.Position = UDim2.new(0.5, 0, 0.5, 0)
+				notificationcenter.Size = UDim2.new(0, 0, 0, 0)
+				notificationcenter.ZIndex = 999
+				notificationcenter.ClipsDescendants = true
+
+				tween(notificationcenter,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 578, 0, 500)})
+
+				notificationcenter_uicorner.Name = "notificationcenter_uicorner"
+				notificationcenter_uicorner.Parent = notificationcenter
+
+				notificationcenter_main.Name = "notificationcenter_main"
+				notificationcenter_main.Parent = notificationcenter
+				notificationcenter_main.Active = true
+				notificationcenter_main.AnchorPoint = Vector2.new(0.5, 0.5)
+				notificationcenter_main.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+				notificationcenter_main.BorderSizePixel = 0
+				notificationcenter_main.Position = UDim2.new(0.5, 0, 0.5, 0)
+				notificationcenter_main.Size = UDim2.new(0, 0, 0, 0)
+				notificationcenter_main.ClipsDescendants = true
+
+				notificationcenter_uicorner_2.Name = "notificationcenter_uicorner"
+				notificationcenter_uicorner_2.Parent = notificationcenter_main
+
+				title_noticenter.Name = "title_noticenter"
+				title_noticenter.Parent = notificationcenter_main
+				title_noticenter.Active = true
+				title_noticenter.AnchorPoint = Vector2.new(0.5, 0.5)
+				title_noticenter.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				title_noticenter.BackgroundTransparency = 1.000
+				title_noticenter.Position = UDim2.new(0.495000005, 0, 0.105999999, 0)
+				title_noticenter.Size = UDim2.new(0, 265, 0, 28)
+				title_noticenter.FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold)
+				title_noticenter.Text = tostring(Title)
+				title_noticenter.TextColor3 = Color3.fromRGB(255, 255, 255)
+				title_noticenter.TextSize = 14.000
+				title_noticenter.TextWrapped = true
+				title_noticenter.TextTransparency = 1
+
+				desc_noticenter.Name = "desc_noticenter"
+				desc_noticenter.Parent = notificationcenter_main
+				desc_noticenter.Active = true
+				desc_noticenter.AnchorPoint = Vector2.new(0.5, 0.5)
+				desc_noticenter.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				desc_noticenter.BackgroundTransparency = 1.000
+				desc_noticenter.Position = UDim2.new(0.495000005, 0, 0.495999992, 0)
+				desc_noticenter.Size = UDim2.new(0, 265, 0, 151)
+				desc_noticenter.FontFace = Font.fromId(12187365977)
+				desc_noticenter.Text = tostring(Desc)
+				desc_noticenter.TextColor3 = Color3.fromRGB(255, 255, 255)
+				desc_noticenter.TextSize = 14.000
+				desc_noticenter.TextTransparency = 1
+				desc_noticenter.TextWrapped = true
+				desc_noticenter.TextYAlignment = Enum.TextYAlignment.Top
+
+				closebutton_centernoti.Name = "closebutton_centernoti"
+				closebutton_centernoti.Parent = notificationcenter_main
+				closebutton_centernoti.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+				closebutton_centernoti.BorderSizePixel = 0
+				closebutton_centernoti.Position = UDim2.new(0.0566666685, 0, 0.860000014, 0)
+				closebutton_centernoti.Size = UDim2.new(0, 266, 0, 23)
+				closebutton_centernoti.FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold)
+				closebutton_centernoti.Text = "Submit"
+				closebutton_centernoti.TextColor3 = Color3.fromRGB(255, 255, 255)
+				closebutton_centernoti.TextSize = 12.000
+				closebutton_centernoti.TextTransparency = 1
+				closebutton_centernoti.TextWrapped = true
+				closebutton_centernoti.BackgroundTransparency = 1
+				closebutton_centernoti.AutoButtonColor = false
+				closebutton_centernoti.ClipsDescendants = true
+
+				stroke(closebutton_centernoti,0,1,Color3.fromRGB(50,50,50))
+
+				UICorner.CornerRadius = UDim.new(0, 4)
+				UICorner.Parent = closebutton_centernoti
+
+				line_fill_noti.Name = "line_fill_noti"
+				line_fill_noti.Parent = notificationcenter_main
+				line_fill_noti.Active = true
+				line_fill_noti.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+				line_fill_noti.BorderSizePixel = 0
+				line_fill_noti.Position = UDim2.new(0.0599999987, 0, 0.808000028, 0)
+				line_fill_noti.Size = UDim2.new(0, 263, 0, 6)
+				line_fill_noti.BackgroundTransparency = 1
+
+				line_fill_noti_uicorner.Name = "line_fill_noti_uicorner"
+				line_fill_noti_uicorner.Parent = line_fill_noti
+
+				line_color.Name = "line_color"
+				line_color.Parent = notificationcenter_main
+				line_color.Active = true
+				line_color.BackgroundColor3 = Color3.fromRGB(100, 200, 239)
+				line_color.BorderSizePixel = 0
+				line_color.Position = UDim2.new(0.0599999987, 0, 0.808000028, 0)
+				line_color.Size = UDim2.new(0, 263, 0, 6)
+				line_color.BackgroundTransparency = 1
+
+				line_color_uicorner.Name = "line_color_uicorner"
+				line_color_uicorner.Parent = line_color
+
+				dropshadow.Name = "dropshadow"
+				dropshadow.Parent = notificationcenter
+				dropshadow.Active = true
+				dropshadow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				dropshadow.BackgroundTransparency = 1.000
+				dropshadow.Position = UDim2.new(0.228373706, 0, 0.239999995, 0)
+				dropshadow.Size = UDim2.new(0, 315, 0, 263)
+				dropshadow.ZIndex = 0
+				dropshadow.Image = "rbxassetid://8068653048"
+				dropshadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+				dropshadow.ImageTransparency = 1
+
+				closebutton_centernoti.MouseButton1Down:Connect(function()
+					CircleAnim(closebutton_centernoti,Color3.fromRGB(255,255,255),Color3.fromRGB(255,255,255))
+					tween(dropshadow,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 1})
+					tween(desc_noticenter,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(title_noticenter,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(line_fill_noti,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 1})
+					tween(line_color,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 1})
+					tween(closebutton_centernoti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(closebutton_centernoti,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 1})
+					repeat wait() until closebutton_centernoti.BackgroundTransparency == 1
+					tween(notificationcenter,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 0, 0, 0)})
+					wait(.2)
+					notificationcenter:Destroy()
+				end)
+
+				repeat wait() until notificationcenter.Size == UDim2.new(0, 578, 0, 500)
+				tween(notificationcenter_main,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 300, 0, 250)})
+				repeat wait() until notificationcenter_main.Size == UDim2.new(0, 300, 0, 250)
+				tween(dropshadow,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 0})
+				tween(desc_noticenter,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0.450})
+				tween(title_noticenter,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0})
+				tween(line_fill_noti,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 0})
+				tween(line_color,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 0})
+				tween(closebutton_centernoti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
+				tween(closebutton_centernoti,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 0})
+				repeat wait() until closebutton_centernoti.BackgroundTransparency == 0
+				tween(line_color,tonumber(Cooldown),Enum.EasingStyle.Quart,{Size = UDim2.new(0, 0, 0, 6)})
+				delay(tonumber(Cooldown),function()
+					tween(dropshadow,0.5,Enum.EasingStyle.Quart,{ImageTransparency = 1})
+					tween(desc_noticenter,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(title_noticenter,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(line_fill_noti,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 1})
+					tween(line_color,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 1})
+					tween(closebutton_centernoti,0.5,Enum.EasingStyle.Quart,{TextTransparency = 1})
+					tween(closebutton_centernoti,0.5,Enum.EasingStyle.Quart,{BackgroundTransparency = 1})
+					repeat wait() until closebutton_centernoti.BackgroundTransparency == 1
+					tween(notificationcenter,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 0, 0, 0)})
+					wait(.2)
+					notificationcenter:Destroy()
+				end)
+			end
+		end
 
 		-- [Join Discord Button]
 		local joindiscordbutton = Create("TextButton",{
@@ -1377,9 +1691,20 @@ function verny.create(Settings)
 								TextWrapped = true,
 								TextXAlignment = Enum.TextXAlignment.Left,
 							})
-							if Config[Title] ~= nil then
+							if Config[Title] ~= nil and Config[Title] == v then
 								Default = Config[Title]
 							end
+							for o,p in pairs(Config[Title]) do
+								if v == p then
+									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
+									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
+									table.insert(MultiDropdown,p)
+									textdrop.Text = (table.concat(MultiDropdown,","))
+									pcall(callback,p)
+									pcall(callback,MultiDropdown)
+								end
+							end
+							
 							for o,p in pairs(Default) do
 								if v == p  then
 									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
@@ -1410,15 +1735,13 @@ function verny.create(Settings)
 								if ConfigSetting.AutoSave then
 									verny:Savefile()
 								end
-								print(Config[Title])
 								pcall(callback,MultiDropdown)
 							end)
 						end
 
 						local dropfunc = {}
-						
-						function dropfunc.ClearName(TableName)
 
+						function dropfunc.ClearName(TableName)
 							for i,v in pairs(dropdownscrollingframe:GetChildren())do
 								if v:IsA("TextButton") then
 									if v:FindFirstChild("TextHead") then 
@@ -1430,14 +1753,14 @@ function verny.create(Settings)
 							end
 							textdrop.Text = ""
 						end
-						
+
 						function dropfunc:Refresh(ClearSelect,Item)
 							dropfunc.ClearName(ClearSelect)
 							for i,v in pairs(Item) do 
 								dropfunc.Add(v)
 							end
 						end
-						
+
 						function dropfunc.Clear()
 							for i,v in pairs(dropdownscrollingframe:GetChildren())do
 								if v:IsA("TextButton") then
@@ -1539,7 +1862,6 @@ function verny.create(Settings)
 								if ConfigSetting.AutoSave then
 									verny:Savefile()
 								end
-								print(Config[Title])
 								pcall(callback,MultiDropdown)
 							end)
 						end
@@ -1629,10 +1951,8 @@ function verny.create(Settings)
 					--[SaveModule]
 					if Config[Title] ~= nil then
 						Default = Config[Title]
-						print(Config[Title])
 					elseif Config[Title] == nil then
 						Config[Title] = Default
-						print(Config)
 					end
 					togglebutton.MouseButton1Down:Connect(function()
 						if not togglefocus then
@@ -1735,7 +2055,7 @@ function verny.create(Settings)
 					local Dec = options.Dec or false
 					local Default = options.Default or 50
 					local callback = options.callback or function() end
-
+					
 					local sliderframe = Create("Frame",{
 						Name = "sliderframe",
 						Parent = page,
@@ -1776,8 +2096,9 @@ function verny.create(Settings)
 						Parent = slidervalueframe,
 						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 						BorderSizePixel = 0,
-						Size = UDim2.new((Default or 0) / Max, 0, 0, 25),
+						Size = UDim2.new((Default or 0)/ Max, 0, 0, 25),
 					})
+					
 					local ButtonBarUIGradient = Create("UIGradient",{
 						Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(21, 41, 49)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(50, 99, 118))},
 						Name = "ButtonBarUIGradient",
@@ -1792,7 +2113,7 @@ function verny.create(Settings)
 						BackgroundTransparency = 1.000,
 						BorderSizePixel = 0,
 						ClipsDescendants = true,
-						Position = UDim2.new((Default or 0)/Max, 0.5, 0.5,0.5, 0),
+						Position = UDim2.new(Default/Max, 0.5, 0.5,0.5, 0),
 						Size = UDim2.new(0, 9, 0, 9),
 					})
 					corner(SliderValueFrame_2,4)
@@ -1863,20 +2184,41 @@ function verny.create(Settings)
 						if Dec == true then
 							local value = string.format("%.1f",((pos.X.Scale * Max) / Max) * (Max - Min) + Min)
 							number_text.Text = tostring(value)
+							Config[Title] = value
+							if ConfigSetting.AutoSave then
+								verny:Savefile()
+							end
 							callback(value)
 						else
 							local value = math.floor(((pos.X.Scale * Max) / Max) * (Max - Min) + Min)
+							Config[Title] = value
+							if ConfigSetting.AutoSave then
+								verny:Savefile()
+							end
 							number_text.Text = tostring(value)
 							callback(value)
 						end
 					end
-
-					if Default <= Min then
-						number_text.Text = Min
-					else
-						number_text.Text = Default
-						callback(Default)
-					end
+					
+					pcall(function()
+						if Config[Title] ~= nil then
+							Default = Config[Title]
+							if Default <= Min then
+								number_text.Text = Min
+								SliderValueFrame:TweenSize(UDim2.new((tonumber(number_text.Text) or 0) / Max, 0, 0, 25), "Out", "Sine", 0.2, true)
+								callback(Min)
+							else
+								number_text.Text = Default
+								SliderValueFrame:TweenSize(UDim2.new((tonumber(number_text.Text) or 0) / Max, 0, 0, 25), "Out", "Sine", 0.2, true)
+								callback(Default)
+							end
+						elseif Config[Title] == nil then
+							Config[Title] = Default
+							number_text.Text = Default
+							SliderValueFrame:TweenSize(UDim2.new((tonumber(number_text.Text) or 0) / Max, 0, 0, 25), "Out", "Sine", 0.2, true)
+							callback(tonumber(number_text.Text))
+						end
+					end)
 
 					local dragging = false
 
@@ -1930,6 +2272,10 @@ function verny.create(Settings)
 							number_text.Text = Min
 						else
 							number_text.Text = value
+						end
+						Config[Title] = tonumber(number_text.Text)
+						if ConfigSetting.AutoSave then
+							verny:Savefile()
 						end
 						callback(number_text.Text)
 					end
@@ -2002,6 +2348,15 @@ function verny.create(Settings)
 						TextXAlignment = Enum.TextXAlignment.Right,
 						ClipsDescendants = true,
 					})
+					
+					if Config[Title] ~= nil then
+						Holder = Config[Title]
+						textbox.Text = Holder
+						pcall(callback,textbox.Text)
+					elseif Config[Title] == nil then
+						Config[Title] = Holder
+					end
+					
 
 					textbox.Focused:Connect(function()
 						tween(texthead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
@@ -2021,6 +2376,10 @@ function verny.create(Settings)
 						tween(textbox,0.2,Enum.EasingStyle.Quart,{Position = UDim2.new(0, 0, 0, 0)})
 						if ep then
 							if #textbox.Text > 0 then
+								Config[Title] = textbox.Text
+								if ConfigSetting.AutoSave then
+									verny:Savefile()
+								end
 								pcall(callback, textbox.Text)
 							end
 						end
