@@ -101,13 +101,20 @@ function Abbreviate(x)
 		"T", -- 13 digits
 		"QD", -- 16 digits
 		"QT", -- 19 digits
-		"SXT", -- 22 digits
-		"SEPT", -- 25 digits
-		"OCT", -- 28 digits
-		"NON", -- 31 digits
-		"DEC", -- 34 digits
-		"UDEC", -- 37 digits
-		"DDEC", -- 40 digits
+		"SX", -- 22 digits
+		"SP", -- 25 digits
+		"OC", -- 28 digits
+		"NO", -- 31 digits
+		"DC", -- 34 digits
+		"UD", -- 37 digits
+		"DD", -- 40 digits
+		"TDD", -- 43 digits
+		"QDD", -- 46 digits
+		"QND", -- 49 digits
+		"SXD", -- 52 digits
+		"SPD", -- 55 digits
+		"OCD", -- 58 digits
+		"NOD", -- 61 digits
 	}
 	if x < 1000 then 
 		return tostring(x)
@@ -311,6 +318,8 @@ local function Create(class, properties)
 	return inst
 end
 
+nameOfGame = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+
 -- [Corner Instance]
 
 local corner = function(p,r)
@@ -432,7 +441,7 @@ function verny.create(Settings)
 			Position = UDim2.new(0.0470588282, 0, 0.0960000008, 0),
 			Size = UDim2.new(0, 144, 0, 23),
 			FontFace = Font.fromId(12187365977),
-			Text = "Blox Fruit",
+			Text = nameOfGame.Name,
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextSize = 14.000,
 			TextTransparency = 0.450,
