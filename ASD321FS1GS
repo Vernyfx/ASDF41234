@@ -29,12 +29,8 @@ for i,v in pairs(game:GetService("CoreGui"):GetDescendants()) do
 		end
 	end
 end
-
 --[Save Module]
 local verny:table = {}
-
-nameOfGame = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
-
 
 local Config = setmetatable({},{ __newindex = function(tables,key,value) rawset(tables,key,value) end})
 local ConfigSetting = {FileName=game.Players.LocalPlayer.Name .. "_" .. game.PlaceId ,AutoSave=true,FolderName='Verny Hub'}
@@ -104,14 +100,14 @@ function Abbreviate(x)
 		"B", -- 10 digits
 		"T", -- 13 digits
 		"QD", -- 16 digits
-		"QN", -- 19 digits
-		"SX", -- 22 digits
-		"SP", -- 25 digits
-		"OC", -- 28 digits
-		"NO", -- 31 digits
-		"DC", -- 34 digits
-		"UD", -- 37 digits
-		"DD", -- 40 digits
+		"QT", -- 19 digits
+		"SXT", -- 22 digits
+		"SEPT", -- 25 digits
+		"OCT", -- 28 digits
+		"NON", -- 31 digits
+		"DEC", -- 34 digits
+		"UDEC", -- 37 digits
+		"DDEC", -- 40 digits
 	}
 	if x < 1000 then 
 		return tostring(x)
@@ -362,7 +358,7 @@ function verny.create(Settings)
 		local focus = false
 		local layout = -1
 		local Title = Settings.Title or tostring("Verny Hub V2")
-		local ApiCode = Settings.Code or tostring("6vjsfKzxVH")
+		local ApiCode = Settings.Code or tostring("vernyhub")
 
 		local verny_main = Create("Frame",{
 			Name = "verny_main",
@@ -436,7 +432,7 @@ function verny.create(Settings)
 			Position = UDim2.new(0.0470588282, 0, 0.0960000008, 0),
 			Size = UDim2.new(0, 144, 0, 23),
 			FontFace = Font.fromId(12187365977),
-			Text = nameOfGame.Name,
+			Text = "Blox Fruit",
 			TextColor3 = Color3.fromRGB(255, 255, 255),
 			TextSize = 14.000,
 			TextTransparency = 0.450,
@@ -459,101 +455,6 @@ function verny.create(Settings)
 			TextWrapped = true,
 			TextXAlignment = Enum.TextXAlignment.Left,
 		})
-
-		-- [Join Discord Button]
-		local joindiscordbutton = Create("TextButton",{
-			Name = "joindiscordbutton",
-			Parent = scrollbar_main,
-			BackgroundColor3 = Color3.fromRGB(35, 35, 35),
-			BorderSizePixel = 0,
-			Position = UDim2.new(0.0470588244, 0, 0.19600001, 0),
-			Size = UDim2.new(0, 154, 0, 21),
-			AutoButtonColor = false,
-			FontFace = Font.fromId(12187365977),
-			Text = "Join Discord",
-			TextColor3 = Color3.fromRGB(255, 255, 255),
-			TextSize = 12.000,
-			TextTransparency = 0.450,
-			TextWrapped = true,
-			ClipsDescendants = true,
-		})
-		corner(joindiscordbutton,4)
-		stroke(joindiscordbutton,0,1,Color3.fromRGB(50,50,50))
-
-		joindiscordbutton.MouseEnter:Connect(function()
-			tween(joindiscordbutton,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0})
-		end)
-
-		joindiscordbutton.MouseLeave:Connect(function()
-			tween(joindiscordbutton,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
-		end)
-
-		joindiscordbutton.MouseButton1Down:Connect(function()
-			CircleAnim(joindiscordbutton,Color3.fromRGB(255,255,255),Color3.fromRGB(255,255,255))
-			local http = game:GetService('HttpService')
-			local req = syn and syn.request or http and http.request or http_request or fluxus and fluxus.request or getgenv().request or request
-			if req then
-				req({
-					Url = 'http://127.0.0.1:6463/rpc?v=1',
-					Method = 'POST',
-					Headers = {
-						['Content-Type'] = 'application/json',
-						Origin = 'https://discord.com'
-					},
-					Body = http:JSONEncode({
-						cmd = 'INVITE_BROWSER',
-						nonce = http:GenerateGUID(false),
-						args = {code = ApiCode}
-					})
-				})
-			end
-		end)
-
-		-- [Join Discord End]
-
-		-- [Toggle UI]
-		local toggleuibutton = Create("TextButton",{
-			Name = "toggleuibutton",
-			Parent = scrollbar_main,
-			BackgroundColor3 = Color3.fromRGB(35, 35, 35),
-			BackgroundTransparency = 1.000,
-			BorderSizePixel = 0,
-			Position = UDim2.new(0.0469999984, 0, 0.0200000014, 0),
-			Size = UDim2.new(0, 154, 0, 21),
-			AutoButtonColor = false,
-			FontFace = Font.fromId(12187365977),
-			Text = "["..toggleui.Name.."]",
-			TextColor3 = Color3.fromRGB(255, 255, 255),
-			TextSize = 12.000,
-			TextTransparency = 0.450,
-			TextWrapped = true,
-			TextXAlignment = Enum.TextXAlignment.Left,
-		})
-
-		toggleuibutton.MouseButton1Click:Connect(function()
-			toggleuibutton.Text = "[Select Key]"
-			local inputwait = UserInputService.InputBegan:wait()
-			if inputwait.KeyCode.Name ~= "Unknown" then
-				toggleui = inputwait.KeyCode
-				toggleuibutton.Text = "["..toggleui.Name.."]"
-				Key = inputwait.KeyCode.Name
-			end
-		end)
-
-		local uitoggled = false
-
-		UserInputService.InputBegan:Connect(function(io, p)
-			if io.KeyCode == toggleui then
-				if uitoggled == false then
-					uitoggled = true
-					tween(verny_main,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 0, 0, 0)})
-				else
-					tween(verny_main,0.5,Enum.EasingStyle.Back,{Size = UDim2.new(0, 578, 0, 500)})
-					repeat wait() until verny_main.Size == UDim2.new(0, 578, 0, 500)
-					uitoggled = false
-				end
-			end
-		end)
 
 		-- [Notification]
 
@@ -869,6 +770,101 @@ function verny.create(Settings)
 			end
 		end
 
+		-- [Join Discord Button]
+		local joindiscordbutton = Create("TextButton",{
+			Name = "joindiscordbutton",
+			Parent = scrollbar_main,
+			BackgroundColor3 = Color3.fromRGB(35, 35, 35),
+			BorderSizePixel = 0,
+			Position = UDim2.new(0.0470588244, 0, 0.19600001, 0),
+			Size = UDim2.new(0, 154, 0, 21),
+			AutoButtonColor = false,
+			FontFace = Font.fromId(12187365977),
+			Text = "Join Discord",
+			TextColor3 = Color3.fromRGB(255, 255, 255),
+			TextSize = 12.000,
+			TextTransparency = 0.450,
+			TextWrapped = true,
+			ClipsDescendants = true,
+		})
+		corner(joindiscordbutton,4)
+		stroke(joindiscordbutton,0,1,Color3.fromRGB(50,50,50))
+
+		joindiscordbutton.MouseEnter:Connect(function()
+			tween(joindiscordbutton,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0})
+		end)
+
+		joindiscordbutton.MouseLeave:Connect(function()
+			tween(joindiscordbutton,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
+		end)
+
+		joindiscordbutton.MouseButton1Down:Connect(function()
+			CircleAnim(joindiscordbutton,Color3.fromRGB(255,255,255),Color3.fromRGB(255,255,255))
+			local http = game:GetService('HttpService')
+			local req = syn and syn.request or http and http.request or http_request or fluxus and fluxus.request or getgenv().request or request
+			if req then
+				req({
+					Url = 'http://127.0.0.1:6463/rpc?v=1',
+					Method = 'POST',
+					Headers = {
+						['Content-Type'] = 'application/json',
+						Origin = 'https://discord.com'
+					},
+					Body = http:JSONEncode({
+						cmd = 'INVITE_BROWSER',
+						nonce = http:GenerateGUID(false),
+						args = {code = ApiCode}
+					})
+				})
+			end
+		end)
+
+		-- [Join Discord End]
+
+		-- [Toggle UI]
+		local toggleuibutton = Create("TextButton",{
+			Name = "toggleuibutton",
+			Parent = scrollbar_main,
+			BackgroundColor3 = Color3.fromRGB(35, 35, 35),
+			BackgroundTransparency = 1.000,
+			BorderSizePixel = 0,
+			Position = UDim2.new(0.0469999984, 0, 0.0200000014, 0),
+			Size = UDim2.new(0, 154, 0, 21),
+			AutoButtonColor = false,
+			FontFace = Font.fromId(12187365977),
+			Text = "["..toggleui.Name.."]",
+			TextColor3 = Color3.fromRGB(255, 255, 255),
+			TextSize = 12.000,
+			TextTransparency = 0.450,
+			TextWrapped = true,
+			TextXAlignment = Enum.TextXAlignment.Left,
+		})
+
+		toggleuibutton.MouseButton1Click:Connect(function()
+			toggleuibutton.Text = "[Select Key]"
+			local inputwait = UserInputService.InputBegan:wait()
+			if inputwait.KeyCode.Name ~= "Unknown" then
+				toggleui = inputwait.KeyCode
+				toggleuibutton.Text = "["..toggleui.Name.."]"
+				Key = inputwait.KeyCode.Name
+			end
+		end)
+
+		local uitoggled = false
+
+		UserInputService.InputBegan:Connect(function(io, p)
+			if io.KeyCode == toggleui then
+				if uitoggled == false then
+					uitoggled = true
+					tween(verny_main,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 0, 0, 0)})
+				else
+					tween(verny_main,0.5,Enum.EasingStyle.Back,{Size = UDim2.new(0, 578, 0, 500)})
+					repeat wait() until verny_main.Size == UDim2.new(0, 578, 0, 500)
+					uitoggled = false
+				end
+			end
+		end)
+
 		-- [Toggle UI End]
 
 		local scrollingbar = Create("ScrollingFrame",{
@@ -1165,13 +1161,407 @@ function verny.create(Settings)
 				end)
 
 				local Item = {}
+				
+				function Item.MultiDropdown(options)
+					local Title = options.Title or tostring("Multi Dropdown")
+					local Item = options.Item or {}
+					local Default = options.Default or {}
+					local MultiDropdown = {}
+					local callback = options.callback or function() end
+					
+					local dropdownframe = Create("Frame",{
+						Name = "dropdownframe",
+						Parent = page,
+						Active = true,
+						BackgroundColor3 = Color3.fromRGB(35, 35, 35),
+						ClipsDescendants = true,
+						Position = UDim2.new(0, 0, 0.113636367, 0),
+						Size = UDim2.new(0, 380, 0, 38),
+					})
+					stroke(dropdownframe,0,1,Color3.fromRGB(50,50,50))
+					corner(dropdownframe,4)
+					local dropdownbutton = Create("TextButton",{
+						Name = "dropdownbutton",
+						Parent = dropdownframe,
+						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+						BackgroundTransparency = 1.000,
+						Size = UDim2.new(0, 380, 0, 38),
+						Font = Enum.Font.SourceSans,
+						Text = "",
+						TextColor3 = Color3.fromRGB(0, 0, 0),
+						TextSize = 14.000,
+					})
+					local titledropdown = Create("TextLabel",{
+						Name = "titledropdown",
+						Parent = dropdownframe,
+						Active = true,
+						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+						BackgroundTransparency = 1.000,
+						Position = UDim2.new(0.0225080382, 0, 0, 0),
+						Size = UDim2.new(0, 246, 0, 38),
+						FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold),
+						TextColor3 = Color3.fromRGB(255, 255, 255),
+						TextSize = 14.000,
+						TextWrapped = true,
+						TextTransparency = 0.45,
+						TextXAlignment = Enum.TextXAlignment.Left,
+						Text = tostring(Title),
+					})
+					local arrowdropdown = Create("ImageLabel",{
+						Name = "arrowdropdown",
+						Parent = titledropdown,
+						Active = true,
+						AnchorPoint = Vector2.new(0.5, 0.5),
+						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+						BackgroundTransparency = 1.000,
+						Position = UDim2.new(1.4, 0, 0.5, 0),
+						Size = UDim2.new(0, 20, 0, 20),
+						Image = "http://www.roblox.com/asset/?id=6034818372",
+						ImageColor3 = Color3.fromRGB(79, 79, 79),
+					})
+					local textdrop = Create("TextLabel",{
+						Name = "textdrop",
+						Parent = titledropdown,
+						Active = true,
+						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+						BackgroundTransparency = 1.000,
+						AnchorPoint = Vector2.new(0.5, 0.5),
+						Position = UDim2.new(1.1, 0, 0.5, 0),
+						Size = UDim2.new(0, 126, 0, 20),
+						FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold),
+						TextColor3 = Color3.fromRGB(255, 255, 255),
+						TextSize = 12.000,
+						TextTransparency = 0.450,
+						TextWrapped = true,
+						TextXAlignment = Enum.TextXAlignment.Right,
+						Text = "",
+					})
+					local searchdropdown = Create("TextBox",{
+						Name = "searchdropdown",
+						Parent = titledropdown,
+						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+						BackgroundTransparency = 1.000,
+						Position = UDim2.new(-2.48110382e-07, 0, 0.77, 0),
+						Size = UDim2.new(0, 365, 0, 27),
+						FontFace = Font.fromId(12187365977),
+						PlaceholderText = "Search . . .",
+						Text = "",
+						TextColor3 = Color3.fromRGB(255, 255, 255),
+						TextSize = 12.000,
+						TextWrapped = true,
+						TextXAlignment = Enum.TextXAlignment.Left,
+					})
+					local dropdownscrollingframe = Create("ScrollingFrame",{
+						Name = "dropdownscrollingframe",
+						Parent = titledropdown,
+						Active = true,
+						BackgroundColor3 = Color3.fromRGB(25, 25, 25),
+						BorderSizePixel = 0,
+						Position = UDim2.new(-0.00500016892, 0, 1.5, 0),
+						Size = UDim2.new(0, 365, 0, 175),
+						ZIndex = 2,
+					})
+					local dropdownscrollingframe_uipadding = Create("UIPadding",{
+						Name = "dropdownscrollingframe_uipadding",
+						Parent = dropdownscrollingframe,
+						PaddingLeft = UDim.new(0, 5),
+						PaddingTop = UDim.new(0, 5),
+					})
+					local dropdownscrollingframe_uilistlayout = Create("UIListLayout",{
+						Name = "dropdownscrollingframe_uilistlayout",
+						Parent = dropdownscrollingframe,
+						SortOrder = Enum.SortOrder.LayoutOrder,
+						Padding = UDim.new(0, 5),
+					})
+
+					local dropdownfocus = false
+
+					dropdownbutton.MouseButton1Down:Connect(function()
+						if not dropdownfocus then
+							tween(dropdownframe,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 380, 0, 241)})
+							tween(titledropdown,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0})
+							tween(arrowdropdown,0.5,Enum.EasingStyle.Quart,{Rotation = 180})
+							tween(arrowdropdown,0.5,Enum.EasingStyle.Quart,{ImageColor3 = Color3.fromRGB(255, 255, 255)})
+						else
+							tween(dropdownframe,0.5,Enum.EasingStyle.Quart,{Size = UDim2.new(0, 380, 0, 38)})
+							tween(titledropdown,0.5,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
+							tween(arrowdropdown,0.5,Enum.EasingStyle.Quart,{Rotation = 0})
+							tween(arrowdropdown,0.5,Enum.EasingStyle.Quart,{ImageColor3 = Color3.fromRGB(79,79,79)})
+						end
+						dropdownfocus = not dropdownfocus
+						dropdownscrollingframe.CanvasSize = UDim2.new(0,0,0,dropdownscrollingframe_uilistlayout.AbsoluteContentSize.Y + 5)
+					end)
+
+					function UpdateInputOfSearchText()
+						local InputText = string.upper(searchdropdown.Text)
+						for _,button in pairs(dropdownscrollingframe:GetChildren()) do
+							if button:IsA("TextButton") then
+								for i,v in pairs(button:GetChildren()) do
+									if v:IsA("TextLabel") then
+										if InputText == "" or string.find(string.upper(v.Text),InputText) ~= nil then
+											button.Visible = true
+										else
+											button.Visible = false
+										end
+									end
+								end
+							end
+						end
+					end
+
+					searchdropdown.Changed:Connect(UpdateInputOfSearchText)
+
+					for i,v in pairs(Item) do
+						local buttonbar = Create("TextButton",{
+							Name = "buttonbar",
+							Parent = dropdownscrollingframe,
+							BackgroundColor3 = Color3.fromRGB(51, 59, 67),
+							BackgroundTransparency = 1.000,
+							BorderSizePixel = 0,
+							ClipsDescendants = true,
+							Position = UDim2.new(0.0113895219, 0, 0.0285714287, 0),
+							Size = UDim2.new(0, 365, 0, 29),
+							AutoButtonColor = false,
+							Font = Enum.Font.GothamBold,
+							Text = "",
+							TextColor3 = Color3.fromRGB(255, 255, 255),
+							TextSize = 12.000,
+							TextTransparency = 0.450,
+						})
+
+						local CheckBox1 = Create("Frame",{
+							Name = "CheckBox1",
+							Parent = buttonbar,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(35, 35, 35),
+							Position = UDim2.new(0.0500000007, 0, 0.5, 0),
+							Size = UDim2.new(0, 23, 0, 23),
+						})
+						corner(CheckBox1,4)
+						local CheckBox2 = Create("Frame",{
+							Name = "CheckBox2",
+							Parent = CheckBox1,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(102, 200, 239),
+							Position = UDim2.new(0.5, 0, 0.5, 0),
+							Size = UDim2.new(0, 0, 0, 0),
+							ClipsDescendants = true,
+							BorderSizePixel = 0,
+						})
+						corner(CheckBox2,4)
+						local ImageLabel = Create("ImageLabel",{
+							Parent = CheckBox2,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+							BackgroundTransparency = 1.000,
+							Position = UDim2.new(0.5, 0, 0.5, 0),
+							Size = UDim2.new(0, 15, 0, 15),
+							Image = "rbxassetid://11287988323",
+							ScaleType = Enum.ScaleType.Crop,
+						})
+						local TextHead = Create("TextLabel",{
+							Name = "TextHead",
+							Parent = buttonbar,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+							BackgroundTransparency = 1.000,
+							Position = UDim2.new(0.61, 0, 0.5, 0),
+							Size = UDim2.new(0, 365, 0, 27),
+							FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold),
+							TextColor3 = Color3.fromRGB(255, 255, 255),
+							TextSize = 14.000,
+							Text = tostring(v),
+							TextTransparency = 0.450,
+							TextWrapped = true,
+							TextXAlignment = Enum.TextXAlignment.Left,
+						})
+						if Config[Title] ~= nil then
+							Default = Config[Title]
+							for o,p in pairs(Default) do
+								if v == p then
+									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
+									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
+									table.insert(MultiDropdown,p)
+									textdrop.Text = (table.concat(MultiDropdown,","))
+									pcall(callback,p)
+									pcall(callback,MultiDropdown)
+								end
+							end
+						elseif Config[Title] == nil then
+							Config[Title] = Default
+							for o,p in pairs(Default) do
+								if v == p  then
+									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
+									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
+									table.insert(MultiDropdown,p)
+									textdrop.Text = (table.concat(MultiDropdown,","))
+									pcall(callback,p)
+									pcall(callback,MultiDropdown)
+								end
+							end
+						end
+
+						buttonbar.MouseButton1Down:Connect(function()
+							if tablefound(MultiDropdown,v) == false then
+								table.insert(MultiDropdown,v)
+								tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
+								tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
+							else
+								for ine,va in pairs(MultiDropdown) do
+									if va == v then
+										table.remove(MultiDropdown,ine)
+									end
+								end
+								tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
+								tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
+							end
+							textdrop.Text = (table.concat(MultiDropdown,","))
+							Config[Title] = MultiDropdown
+							if ConfigSetting.AutoSave then
+								verny:Savefile()
+							end
+							pcall(callback,MultiDropdown)
+						end)
+					end
+
+					local dropfunc = {}
+
+					function dropfunc.ClearName(TableName)
+						for i,v in pairs(dropdownscrollingframe:GetChildren())do
+							if v:IsA("TextButton") then
+								if v:FindFirstChild("TextHead") then 
+									if tablefoundUpGrade(TableName,v:FindFirstChild("TextHead").Text,tostring) then 
+										v:Destroy()
+									end
+								end
+							end
+						end
+						textdrop.Text = ""
+					end
+
+					function dropfunc:Refresh(ClearSelect,Item)
+						dropfunc.ClearName(ClearSelect)
+						for i,v in pairs(Item) do 
+							dropfunc.Add(v)
+						end
+					end
+
+					function dropfunc.Clear()
+						for i,v in pairs(dropdownscrollingframe:GetChildren())do
+							if v:IsA("TextButton") then
+								v:Destroy()
+							end
+						end
+						table.clear(Item)
+						table.clear(MultiDropdown)
+						textdrop.Text = ""
+					end
+
+					function dropfunc.Add(v)
+
+						local buttonbar = Create("TextButton",{
+							Name = "buttonbar",
+							Parent = dropdownscrollingframe,
+							BackgroundColor3 = Color3.fromRGB(51, 59, 67),
+							BackgroundTransparency = 1.000,
+							BorderSizePixel = 0,
+							ClipsDescendants = true,
+							Position = UDim2.new(0.0113895219, 0, 0.0285714287, 0),
+							Size = UDim2.new(0, 365, 0, 29),
+							AutoButtonColor = false,
+							Font = Enum.Font.GothamBold,
+							Text = "",
+							TextColor3 = Color3.fromRGB(255, 255, 255),
+							TextSize = 12.000,
+							TextTransparency = 0.450,
+						})
+
+						local CheckBox1 = Create("Frame",{
+							Name = "CheckBox1",
+							Parent = buttonbar,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(35, 35, 35),
+							Position = UDim2.new(0.0500000007, 0, 0.5, 0),
+							Size = UDim2.new(0, 23, 0, 23),
+						})
+						corner(CheckBox1,4)
+						local CheckBox2 = Create("Frame",{
+							Name = "CheckBox2",
+							Parent = CheckBox1,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(102, 200, 239),
+							Position = UDim2.new(0.5, 0, 0.5, 0),
+							Size = UDim2.new(0, 0, 0, 0),
+							ClipsDescendants = true,
+							BorderSizePixel = 0,
+						})
+						corner(CheckBox2,4)
+						local ImageLabel = Create("ImageLabel",{
+							Parent = CheckBox2,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+							BackgroundTransparency = 1.000,
+							Position = UDim2.new(0.5, 0, 0.5, 0),
+							Size = UDim2.new(0, 15, 0, 15),
+							Image = "rbxassetid://11287988323",
+							ScaleType = Enum.ScaleType.Crop,
+						})
+						local TextHead = Create("TextLabel",{
+							Name = "TextHead",
+							Parent = buttonbar,
+							Active = true,
+							AnchorPoint = Vector2.new(0.5, 0.5),
+							BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+							BackgroundTransparency = 1.000,
+							Position = UDim2.new(0.61, 0, 0.5, 0),
+							Size = UDim2.new(0, 365, 0, 27),
+							FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold),
+							TextColor3 = Color3.fromRGB(255, 255, 255),
+							TextSize = 14.000,
+							Text = tostring(v),
+							TextTransparency = 0.450,
+							TextWrapped = true,
+							TextXAlignment = Enum.TextXAlignment.Left,
+						})
+
+
+						buttonbar.MouseButton1Down:Connect(function()
+							if tablefound(MultiDropdown,v) == false then
+								table.insert(MultiDropdown,v)
+								tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
+								tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
+							else
+								for ine,va in pairs(MultiDropdown) do
+									if va == v then
+										table.remove(MultiDropdown,ine)
+									end
+								end
+								tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
+								tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
+							end
+							textdrop.Text = (table.concat(MultiDropdown,","))
+							Config[Title] = MultiDropdown
+							if ConfigSetting.AutoSave then
+								verny:Savefile()
+							end
+							pcall(callback,MultiDropdown)
+						end)
+					end
+					return dropfunc
+				end
 
 				function Item.Dropdown(options)
 					local Title = options.Title or tostring("Dropdown")
 					local Item = options.Item or {}
 					local Default = options.Default or {}
 					local callback = options.callback or function() end
-					local Mode = options.Mode or false
 
 					local dropdownframe = Create("Frame",{
 						Name = "dropdownframe",
@@ -1315,7 +1705,6 @@ function verny.create(Settings)
 
 					searchdropdown.Changed:Connect(UpdateInputOfSearchText)
 
-					if not Mode then
 						for i,v in pairs(Item) do
 							local buttonbar = Create("TextButton",{
 								Name = "buttonbar",
@@ -1621,244 +2010,6 @@ function verny.create(Settings)
 							dropfunc.Add(Item)
 						end
 						return dropfunc
-					else -- Multi Dropdown
-						local MultiDropdown = {}
-
-						for i,v in pairs(Item) do
-							local buttonbar = Create("TextButton",{
-								Name = "buttonbar",
-								Parent = dropdownscrollingframe,
-								BackgroundColor3 = Color3.fromRGB(51, 59, 67),
-								BackgroundTransparency = 1.000,
-								BorderSizePixel = 0,
-								ClipsDescendants = true,
-								Position = UDim2.new(0.0113895219, 0, 0.0285714287, 0),
-								Size = UDim2.new(0, 365, 0, 29),
-								AutoButtonColor = false,
-								Font = Enum.Font.GothamBold,
-								Text = "",
-								TextColor3 = Color3.fromRGB(255, 255, 255),
-								TextSize = 12.000,
-								TextTransparency = 0.450,
-							})
-
-							local CheckBox1 = Create("Frame",{
-								Name = "CheckBox1",
-								Parent = buttonbar,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(35, 35, 35),
-								Position = UDim2.new(0.0500000007, 0, 0.5, 0),
-								Size = UDim2.new(0, 23, 0, 23),
-							})
-							corner(CheckBox1,4)
-							local CheckBox2 = Create("Frame",{
-								Name = "CheckBox2",
-								Parent = CheckBox1,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(102, 200, 239),
-								Position = UDim2.new(0.5, 0, 0.5, 0),
-								Size = UDim2.new(0, 0, 0, 0),
-								ClipsDescendants = true,
-								BorderSizePixel = 0,
-							})
-							corner(CheckBox2,4)
-							local ImageLabel = Create("ImageLabel",{
-								Parent = CheckBox2,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-								BackgroundTransparency = 1.000,
-								Position = UDim2.new(0.5, 0, 0.5, 0),
-								Size = UDim2.new(0, 15, 0, 15),
-								Image = "rbxassetid://11287988323",
-								ScaleType = Enum.ScaleType.Crop,
-							})
-							local TextHead = Create("TextLabel",{
-								Name = "TextHead",
-								Parent = buttonbar,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-								BackgroundTransparency = 1.000,
-								Position = UDim2.new(0.61, 0, 0.5, 0),
-								Size = UDim2.new(0, 365, 0, 27),
-								FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold),
-								TextColor3 = Color3.fromRGB(255, 255, 255),
-								TextSize = 14.000,
-								Text = tostring(v),
-								TextTransparency = 0.450,
-								TextWrapped = true,
-								TextXAlignment = Enum.TextXAlignment.Left,
-							})
-							if Config[Title] ~= nil then
-								Default = Config[Title]
-							end
-							for o,p in pairs(Default) do
-								if v == p  then
-									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
-									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
-									table.insert(MultiDropdown,p)
-									textdrop.Text = (table.concat(MultiDropdown,","))
-									pcall(callback,p)
-									pcall(callback,MultiDropdown)
-								end
-							end
-
-							buttonbar.MouseButton1Down:Connect(function()
-								if tablefound(MultiDropdown,v) == false then
-									table.insert(MultiDropdown,v)
-									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
-									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
-								else
-									for ine,va in pairs(MultiDropdown) do
-										if va == v then
-											table.remove(MultiDropdown,ine)
-										end
-									end
-									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
-									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
-								end
-								textdrop.Text = (table.concat(MultiDropdown,","))
-								Config[Title] = MultiDropdown
-								if ConfigSetting.AutoSave then
-									verny:Savefile()
-								end
-								print(Config[Title])
-								pcall(callback,MultiDropdown)
-							end)
-						end
-
-						local dropfunc = {}
-						
-						function dropfunc.ClearName(TableName)
-
-							for i,v in pairs(dropdownscrollingframe:GetChildren())do
-								if v:IsA("TextButton") then
-									if v:FindFirstChild("TextHead") then 
-										if tablefoundUpGrade(TableName,v:FindFirstChild("TextHead").Text,tostring) then 
-											v:Destroy()
-										end
-									end
-								end
-							end
-							textdrop.Text = ""
-						end
-						
-						function dropfunc:Refresh(ClearSelect,Item)
-							dropfunc.ClearName(ClearSelect)
-							for i,v in pairs(Item) do 
-								dropfunc.Add(v)
-							end
-						end
-						
-						function dropfunc.Clear()
-							for i,v in pairs(dropdownscrollingframe:GetChildren())do
-								if v:IsA("TextButton") then
-									v:Destroy()
-								end
-							end
-							table.clear(Item)
-							table.clear(MultiDropdown)
-							textdrop.Text = ""
-						end
-
-						function dropfunc.Add(v)
-
-							local buttonbar = Create("TextButton",{
-								Name = "buttonbar",
-								Parent = dropdownscrollingframe,
-								BackgroundColor3 = Color3.fromRGB(51, 59, 67),
-								BackgroundTransparency = 1.000,
-								BorderSizePixel = 0,
-								ClipsDescendants = true,
-								Position = UDim2.new(0.0113895219, 0, 0.0285714287, 0),
-								Size = UDim2.new(0, 365, 0, 29),
-								AutoButtonColor = false,
-								Font = Enum.Font.GothamBold,
-								Text = "",
-								TextColor3 = Color3.fromRGB(255, 255, 255),
-								TextSize = 12.000,
-								TextTransparency = 0.450,
-							})
-
-							local CheckBox1 = Create("Frame",{
-								Name = "CheckBox1",
-								Parent = buttonbar,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(35, 35, 35),
-								Position = UDim2.new(0.0500000007, 0, 0.5, 0),
-								Size = UDim2.new(0, 23, 0, 23),
-							})
-							corner(CheckBox1,4)
-							local CheckBox2 = Create("Frame",{
-								Name = "CheckBox2",
-								Parent = CheckBox1,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(102, 200, 239),
-								Position = UDim2.new(0.5, 0, 0.5, 0),
-								Size = UDim2.new(0, 0, 0, 0),
-								ClipsDescendants = true,
-								BorderSizePixel = 0,
-							})
-							corner(CheckBox2,4)
-							local ImageLabel = Create("ImageLabel",{
-								Parent = CheckBox2,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-								BackgroundTransparency = 1.000,
-								Position = UDim2.new(0.5, 0, 0.5, 0),
-								Size = UDim2.new(0, 15, 0, 15),
-								Image = "rbxassetid://11287988323",
-								ScaleType = Enum.ScaleType.Crop,
-							})
-							local TextHead = Create("TextLabel",{
-								Name = "TextHead",
-								Parent = buttonbar,
-								Active = true,
-								AnchorPoint = Vector2.new(0.5, 0.5),
-								BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-								BackgroundTransparency = 1.000,
-								Position = UDim2.new(0.61, 0, 0.5, 0),
-								Size = UDim2.new(0, 365, 0, 27),
-								FontFace = Font.fromId(12187365977,Enum.FontWeight.Bold),
-								TextColor3 = Color3.fromRGB(255, 255, 255),
-								TextSize = 14.000,
-								Text = tostring(v),
-								TextTransparency = 0.450,
-								TextWrapped = true,
-								TextXAlignment = Enum.TextXAlignment.Left,
-							})
-
-
-							buttonbar.MouseButton1Down:Connect(function()
-								if tablefound(MultiDropdown,v) == false then
-									table.insert(MultiDropdown,v)
-									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 23, 0, 23)})
-									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
-								else
-									for ine,va in pairs(MultiDropdown) do
-										if va == v then
-											table.remove(MultiDropdown,ine)
-										end
-									end
-									tween(CheckBox2,0.2,Enum.EasingStyle.Back,{Size = UDim2.new(0, 0, 0, 0)})
-									tween(TextHead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0.45})
-								end
-								textdrop.Text = (table.concat(MultiDropdown,","))
-								Config[Title] = MultiDropdown
-								if ConfigSetting.AutoSave then
-									verny:Savefile()
-								end
-								print(Config[Title])
-								pcall(callback,MultiDropdown)
-							end)
-						end
-					end
 				end
 
 				function Item.Toggle(options)
@@ -1944,10 +2095,8 @@ function verny.create(Settings)
 					--[SaveModule]
 					if Config[Title] ~= nil then
 						Default = Config[Title]
-						print(Config[Title])
 					elseif Config[Title] == nil then
 						Config[Title] = Default
-						print(Config)
 					end
 					togglebutton.MouseButton1Down:Connect(function()
 						if not togglefocus then
@@ -2091,8 +2240,9 @@ function verny.create(Settings)
 						Parent = slidervalueframe,
 						BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 						BorderSizePixel = 0,
-						Size = UDim2.new((Default or 0) / Max, 0, 0, 25),
+						Size = UDim2.new((Default or 0)/ Max, 0, 0, 25),
 					})
+
 					local ButtonBarUIGradient = Create("UIGradient",{
 						Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(21, 41, 49)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(50, 99, 118))},
 						Name = "ButtonBarUIGradient",
@@ -2107,7 +2257,7 @@ function verny.create(Settings)
 						BackgroundTransparency = 1.000,
 						BorderSizePixel = 0,
 						ClipsDescendants = true,
-						Position = UDim2.new((Default or 0)/Max, 0.5, 0.5,0.5, 0),
+						Position = UDim2.new(Default/Max, 0.5, 0.5,0.5, 0),
 						Size = UDim2.new(0, 9, 0, 9),
 					})
 					corner(SliderValueFrame_2,4)
@@ -2178,20 +2328,41 @@ function verny.create(Settings)
 						if Dec == true then
 							local value = string.format("%.1f",((pos.X.Scale * Max) / Max) * (Max - Min) + Min)
 							number_text.Text = tostring(value)
+							Config[Title] = value
+							if ConfigSetting.AutoSave then
+								verny:Savefile()
+							end
 							callback(value)
 						else
 							local value = math.floor(((pos.X.Scale * Max) / Max) * (Max - Min) + Min)
+							Config[Title] = value
+							if ConfigSetting.AutoSave then
+								verny:Savefile()
+							end
 							number_text.Text = tostring(value)
 							callback(value)
 						end
 					end
 
-					if Default <= Min then
-						number_text.Text = Min
-					else
-						number_text.Text = Default
-						callback(Default)
-					end
+					pcall(function()
+						if Config[Title] ~= nil then
+							Default = Config[Title]
+							if Default <= Min then
+								number_text.Text = Min
+								SliderValueFrame:TweenSize(UDim2.new((tonumber(number_text.Text) or 0) / Max, 0, 0, 25), "Out", "Sine", 0.2, true)
+								callback(Min)
+							else
+								number_text.Text = Default
+								SliderValueFrame:TweenSize(UDim2.new((tonumber(number_text.Text) or 0) / Max, 0, 0, 25), "Out", "Sine", 0.2, true)
+								callback(Default)
+							end
+						elseif Config[Title] == nil then
+							Config[Title] = Default
+							number_text.Text = Default
+							SliderValueFrame:TweenSize(UDim2.new((tonumber(number_text.Text) or 0) / Max, 0, 0, 25), "Out", "Sine", 0.2, true)
+							callback(tonumber(number_text.Text))
+						end
+					end)
 
 					local dragging = false
 
@@ -2245,6 +2416,10 @@ function verny.create(Settings)
 							number_text.Text = Min
 						else
 							number_text.Text = value
+						end
+						Config[Title] = tonumber(number_text.Text)
+						if ConfigSetting.AutoSave then
+							verny:Savefile()
 						end
 						callback(number_text.Text)
 					end
@@ -2318,6 +2493,15 @@ function verny.create(Settings)
 						ClipsDescendants = true,
 					})
 
+					if Config[Title] ~= nil then
+						Holder = Config[Title]
+						textbox.Text = Holder
+						pcall(callback,textbox.Text)
+					elseif Config[Title] == nil then
+						Config[Title] = Holder
+					end
+
+
 					textbox.Focused:Connect(function()
 						tween(texthead,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
 						tween(textbox,0.2,Enum.EasingStyle.Quart,{TextTransparency = 0})
@@ -2336,6 +2520,10 @@ function verny.create(Settings)
 						tween(textbox,0.2,Enum.EasingStyle.Quart,{Position = UDim2.new(0, 0, 0, 0)})
 						if ep then
 							if #textbox.Text > 0 then
+								Config[Title] = textbox.Text
+								if ConfigSetting.AutoSave then
+									verny:Savefile()
+								end
 								pcall(callback, textbox.Text)
 							end
 						end
